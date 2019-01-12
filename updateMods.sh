@@ -3,7 +3,7 @@
 # download mods (sequencial)
 # for each $ARK_MODIDS
 #   download
-for mod in $ARK_MODS; do
+(IFS=","; for mod in $ARK_MODS; do
   echo "---> Installing MOD $mod..."
   #mod=731604991
   ./steamcmd/steamcmd.sh +login anonymous +workshop_download_item 346110 $mod validate +quit
@@ -11,10 +11,15 @@ for mod in $ARK_MODS; do
   rm -rf serverfiles/ShooterGame/Content/Mods/$mod*
   #   extract (in background)
   ./extractMod.sh $mod > /dev/null &
-done
+  echo -e "\n---> MOD $mod installed"
+done)
 
-# TODO: wait for children to finish
-sleep 2;
+# wait for children to finish
+echo "---> waiting for background jobs to finish: "
+while [ -n "$(jobs)" ] ; do
+  sleep 0.5;
+  echo -n "."
+done
 
 # link mods
 (find $HOME/serverfiles/ShooterGame/Content/Mods -type l -exec rm {} ';')
