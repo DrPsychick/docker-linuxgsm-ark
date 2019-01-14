@@ -27,3 +27,23 @@ docker run --rm -it --name lgsm-ark \
   --mount type=bind,source=$PWD/testark_clusters,target=/home/lgsm/serverfiles_clusters \
   drpsychick/linuxgsm-ark ./start.sh ./arkserver details
 ```
+
+Docker user namespace remap
+===========================
+* first line: map UID/GID 0 within the container to UID/GID 1000 on the host
+* second line: map any UID/GID > 0 within the container to 10000+ on the host
+* both lines: everything within the container runs as user: "hostuser" and group: "hostgroup" on the host
+* Be careful! Before switching an existing docker setup to use --userns-remap, make sure to exclude containers that need --priviledged AND take care of permissions (volumes) of other existing container volumes
+
+/etc/subuid
+```hostuser:1000:1
+hostuser:10000:65536```
+
+/etc/subgid
+```hostgroup:1000:1
+hostgroup:10000:65536```
+
+Further reading:
+* https://docs.docker.com/engine/security/userns-remap/
+* https://www.jujens.eu/posts/en/2017/Jul/02/docker-userns-remap/
+
