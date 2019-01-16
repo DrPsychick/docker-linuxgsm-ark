@@ -48,7 +48,8 @@ RUN ./arkserver validate
 # example: running 2 servers on port 7777 which is mapped by docker to different host ports -> the client will "see" only one ARK server that is running on 7777
 #EXPOSE 7777/udp 7778/udp 27015/udp 27020/tcp
 
-# localhost will not work as ARK server listens on eth0 only -> RCON_HOST will be set in start.sh
+# UPDATE: RCON_HOST=localhost WILL work, if you do NOT use the "?Multihome=<eth0 IP>" command line parameter of ShooterGame
+# localhost will NOT work when ARK server listens on eth0 IP only
 # you need to set RCON_PORT and RCON_PASS when starting your container for healthcheck to work
 ENV RCON_HOST=localhost RCON_PORT=27020 RCON_PASS=password
 HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python /home/lgsm/rcon.py listplayers
