@@ -58,4 +58,5 @@ HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python /home/lgsm/rcon.p
 # - update_server, update_mods, update_all : update server/mods and quit (to update mounted server/mod files which can be shared between servers)
 # ENTRYPOINT ['/entrypoint.sh']
 # CMD ['start'] # default is to start the server
-ENTRYPOINT ['./start.sh', './arkserver', 'start']
+ENTRYPOINT ["./start.sh"]
+CMD ["./arkserver", "start"]
