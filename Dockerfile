@@ -34,9 +34,13 @@ RUN ./linuxgsm.sh arkserver \
 
 ADD updateMods.sh extractMod.sh start.sh rcon.py /home/lgsm/
 
+# you need to bind-mount these to persist server files to your drive
+# serverfiles and serverfiles_mods : are shared between all servers
+# serverfiles_saved and serverfiles_config : are "per server"
+# serverfiles_clusters : is shared among all servers in a cluster
 VOLUME /home/lgsm/serverfiles /home/lgsm/serverfiles_saved /home/lgsm/serverfiles_config /home/lgsm/serverfiles_mods /home/lgsm/serverfiles_clusters
 
-# download + delete ARK dedicated server from steam (make sure its working and install steamcmd)
+# download ARK dedicated server from steam and delete it (make sure its working and install steamcmd)
 RUN ./arkserver validate 
   #&& rm -rf ./serverfiles/*
 
@@ -44,5 +48,13 @@ RUN ./arkserver validate
 # example: running 2 servers on port 7777 which is mapped by docker to different host ports -> the client will "see" only one ARK server that is running on 7777
 #EXPOSE 7777/udp 7778/udp 27015/udp 27020/tcp
 
+# localhost will not work as ARK server listens on eth0 only -> RCON_HOST will be set in start.sh
+# you need to set RCON_PORT and RCON_PASS when starting your container for healthcheck to work
 ENV RCON_HOST=localhost RCON_PORT=27020 RCON_PASS=password
 HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python /home/lgsm/rcon.py listplayers
+
+# TODO: merge start.sh with entrypoint.sh and add features:
+# - update_server, update_mods, update_all : update server/mods and quit (to update mounted server/mod files which can be shared between servers)
+# ENTRYPOINT ['/entrypoint.sh']
+# CMD ['start'] # default is to start the server
+ENTRYPOINT ['./start.sh', './arkserver', 'start']

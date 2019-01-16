@@ -33,6 +33,9 @@ fi)
 echo "Configuring mods in GameUserSettings: $ARK_MODS"
 sed -i -e "s/ActiveMods=.*/ActiveMods=$ARK_MODS/" ./serverfiles_config/LinuxServer/GameUserSettings.ini
 
+# HACK: ARK server only listens on eth0 -> need to set RCON_HOST during startup to the eth0 IP
+export RCON_HOST=$(hostname -i)
+
 # now fallback to parent entrypoint
 bash /entrypoint.sh $@
 
