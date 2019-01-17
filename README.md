@@ -17,7 +17,7 @@ Usage:
 * BACKUP the `_config`, `_saved` and `shared_clusters` directories when the servers are offline.
 
 Directories:
-* `serverfiles` contains the dedicated ARK server files (downloaded from steam)
+* `serverfiles` contains the dedicated ARK server files (downloaded from steam) and links to the directories below
 * `serverfiles_mods` contains - what a surprise - steam workshop mods (downloaded from steam)
 * `<yourserver>_config` contains the config for your individual ARK server instance : BACKUP!
 * `<yourserver>_saved` contains the save game for your individual ARK server instance : BACKUP!
@@ -36,6 +36,9 @@ To run a cluster with multiple worlds you need:
 Helpful commands:
 -----------------
 * look inside: `docker run --rm -it --name lgsm-ark --entrypoint /bin/bash drpsychick/linuxgsm-ark`
+  * from within the container, take `lgsm/config-lgsm/arkserver/_default.cfg` as a starting point for your `arkserver.cfg` which you need to put into the `_saved` directory
+  * start the server once with mounted directories and stop it when it is fully available - this will create all config files needed.
+  * modify the `.ini` files (created by ARK during first start) in your `_config` directory to suit your needs
 * run server with directories mounted, environment variables, ports, ...:
   * `--tty` is required, see entrypoint.sh of base image
   * `RCON_*` variables are required for healthcheck to work
