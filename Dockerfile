@@ -3,8 +3,10 @@ LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved"
       maintainer="github@drsick.net"
 
 USER root
+# install/remove packages
 RUN apt-get update \
-    && apt-get install -y jq git python-setuptools # should be in base image?!?
+    && apt-get install -y jq git python-setuptools \
+    && apt-get remove -y --purge default-jdk libmariadb2 libxrandr2 libglu1-mesa libxxf86vm1
 
 # cleanup
 RUN apt-get -y autoremove \
@@ -41,7 +43,7 @@ ADD updateMods.sh extractMod.sh start.sh rcon.py /home/lgsm/
 VOLUME /home/lgsm/serverfiles /home/lgsm/serverfiles_saved /home/lgsm/serverfiles_config /home/lgsm/serverfiles_mods /home/lgsm/serverfiles_clusters
 
 # download ARK dedicated server from steam and delete it (make sure its working and install steamcmd)
-RUN ./arkserver validate 
+RUN ./arkserver validate
   #&& rm -rf ./serverfiles/*
 
 # do NOT expose ports as each server must have dedicated ports (through configuration), because they are communicated to the client
