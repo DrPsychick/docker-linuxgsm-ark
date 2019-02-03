@@ -3,9 +3,16 @@ LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved"
       maintainer="github@drsick.net"
 
 # install mcrcon python module (as root)
-RUN git clone https://github.com/barneygale/MCRcon \
+RUN apt-get update \
+    && apt-get install -y git \
+    && git clone https://github.com/barneygale/MCRcon \
     && (cd MCRcon; python setup.py install_lib) \
     && rm -rf MCRcon
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* \
+    && rm -rf /var/tmp/*
 
 # switch to UID 1100 (temporary fix until I find time to setup userns-remap)
 RUN usermod -u 1100 lgsm
