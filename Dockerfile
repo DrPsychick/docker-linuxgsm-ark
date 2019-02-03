@@ -1,19 +1,6 @@
-FROM gameservermanagers/linuxgsm-docker
+FROM drpsychick/linuxgsm-ubuntu:190106-bionic
 LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved" \
       maintainer="github@drsick.net"
-
-USER root
-# install/remove packages
-RUN apt-get update \
-    && apt-get install -y jq git python-setuptools \
-    && apt-get remove -y --purge default-jdk libmariadb2 libxrandr2 libglu1-mesa libxxf86vm1
-
-# cleanup
-RUN apt-get -y autoremove \
-    && apt-get -y clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/* \
-    && rm -rf /var/tmp/*
 
 # install mcrcon python module (as root)
 RUN git clone https://github.com/barneygale/MCRcon \
@@ -30,11 +17,15 @@ USER lgsm
 # prepare for ark, run "arkserver" once to download linuxgsm functions etc. and link the "arkserver.cfg"
 RUN ./linuxgsm.sh arkserver \
     && mkdir ./serverfiles ./serverfiles_saved ./serverfiles_config ./serverfiles_mods ./serverfiles_clusters \
-    && ./arkserver \
+    && ./arkserver && rm -f ./arkserver \
     && mv ./lgsm/config-lgsm/arkserver/arkserver.cfg ./serverfiles_config/arkserver.cfg \
     && ln -s ../../../serverfiles_config/arkserver.cfg ./lgsm/config-lgsm/arkserver/arkserver.cfg
 
-ADD updateMods.sh extractMod.sh start.sh rcon.py /home/lgsm/
+ADD update_mods.sh \
+    extract_mod.sh \
+    container_init.sh \
+    container_warmup.sh \
+    rcon.py /home/lgsm/
 
 # you need to bind-mount these to persist server files to your drive
 # serverfiles and serverfiles_mods : are shared between all servers
@@ -43,8 +34,7 @@ ADD updateMods.sh extractMod.sh start.sh rcon.py /home/lgsm/
 VOLUME /home/lgsm/serverfiles /home/lgsm/serverfiles_saved /home/lgsm/serverfiles_config /home/lgsm/serverfiles_mods /home/lgsm/serverfiles_clusters
 
 # download ARK dedicated server from steam and delete it (make sure its working and install steamcmd)
-RUN ./arkserver validate
-  #&& rm -rf ./serverfiles/*
+RUN ./arkserver validate && rm -rf ./serverfiles/*
 
 # do NOT expose ports as each server must have dedicated ports (through configuration), because they are communicated to the client
 # example: running 2 servers on port 7777 which is mapped by docker to different host ports -> the client will "see" only one ARK server that is running on 7777
@@ -56,9 +46,7 @@ RUN ./arkserver validate
 ENV RCON_HOST=localhost RCON_PORT=27020 RCON_PASS=password
 HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python /home/lgsm/rcon.py listplayers
 
-# TODO: merge start.sh with entrypoint.sh and add features:
-# - update_server, update_mods, update_all : update server/mods and quit (to update mounted server/mod files which can be shared between servers)
-# ENTRYPOINT ['/entrypoint.sh']
-# CMD ['start'] # default is to start the server
-ENTRYPOINT ["./start.sh"]
-CMD ["./arkserver", "start"]
+ENV SERVERNAME="arkserver"
+ENV UPDATE_LGSM="" UPDATE_SERVER="" FORCE_VALIDATE="" UPDATE_MODS=""
+ENV CONTAINER_INIT="yes" CONTAINER_WARMUP="yes"
+CMD ["start"]
