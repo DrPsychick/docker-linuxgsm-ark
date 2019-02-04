@@ -2,6 +2,7 @@ FROM drpsychick/linuxgsm-ubuntu:190106-bionic
 LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved" \
       maintainer="github@drsick.net"
 
+USER root
 # install mcrcon python module (as root)
 RUN apt-get update \
     && apt-get install -y git \
