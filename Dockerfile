@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get install -y git \
     && git clone https://github.com/barneygale/MCRcon \
     && (cd MCRcon; python setup.py install_lib) \
-    && rm -rf MCRcon
+    && rm -rf MCRcon \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* \
