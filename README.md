@@ -1,8 +1,8 @@
 
 drpsychick/linuxgsm-ark
 =======================
-[![DockerHub build status](https://img.shields.io/docker/build/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/builds/)
-[![DockerHub build](https://img.shields.io/docker/automated/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/builds/)
+[![DockerHub build status](https://img.shields.io/docker/cloud/build/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/builds)
+[![DockerHub build](https://img.shields.io/docker/cloud/automated/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/tags)
 
 Source: https://github.com/DrPsychick/docker-linuxgsm-ark
 Image: https://hub.docker.com/r/drpsychick/linuxgsm-ark
