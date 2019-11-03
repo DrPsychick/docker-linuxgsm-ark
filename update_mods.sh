@@ -10,7 +10,7 @@
   # remove old mod files
   rm -rf serverfiles/ShooterGame/Content/Mods/$mod*
   #   extract (in background)
-  ./extractMod.sh $mod > /dev/null &
+  ./extract_mod.sh $mod > /dev/null &
   echo -e "\n---> MOD $mod installed"
 done)
 

@@ -1,11 +1,11 @@
-
-drpsychick/linuxgsm-ark
+[Docker image: drpsychick/linuxgsm-ark](https://hub.docker.com/r/drpsychick/linuxgsm-ark/)
 =======================
 [![DockerHub build status](https://img.shields.io/docker/cloud/build/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/builds)
 [![DockerHub build](https://img.shields.io/docker/cloud/automated/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/tags)
 
-Source: https://github.com/DrPsychick/docker-linuxgsm-ark
-Image: https://hub.docker.com/r/drpsychick/linuxgsm-ark
+* Source: https://github.com/DrPsychick/docker-linuxgsm-ark
+* Image: https://hub.docker.com/r/drpsychick/linuxgsm-ark
+* Based on: https://github.com/GameServerManagers/LinuxGSM-Docker
 
 Known & Solved issues:
 ----------------------
