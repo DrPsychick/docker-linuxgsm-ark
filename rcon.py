@@ -2,23 +2,32 @@
 # inspired by and based on https://github.com/barneygale/MCRcon/blob/master/demo.py
 
 import mcrcon
+import socket
 
 # python 2 compatibility
 try: input = raw_input
 except NameError: pass
 
 def main(host, port, password, cmd):
-    rcon = mcrcon.MCRcon()
-    rcon.connect(host, port, password)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((host, port))
+
     try:
-        response = rcon.command(cmd)
+        result = mcrcon.login(sock, password)
+        if not result:
+            print("Incorrect password!")
+            return
+
+        response = mcrcon.command(sock, cmd)
         if response:
             print(response)
     except:
         print("Unexpected error:", sys.exc_info()[0])
-        rcon.disconnect()
+        sock.close()
         sys.exit(1)
-    rcon.disconnect()
+    finally:
+        sock.close()
+    
     sys.exit(0)
 
 if __name__ == '__main__':
