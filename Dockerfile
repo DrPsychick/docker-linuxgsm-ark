@@ -1,4 +1,4 @@
-FROM drpsychick/linuxgsm-ubuntu:190106-bionic
+FROM drpsychick/linuxgsm-ubuntu:latest
 LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved" \
       maintainer="github@drsick.net"
 
