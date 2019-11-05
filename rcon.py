@@ -10,6 +10,7 @@ except NameError: pass
 
 def main(host, port, password, cmd):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(3)
     sock.connect((host, port))
 
     try:
@@ -28,7 +29,7 @@ def main(host, port, password, cmd):
     finally:
         sock.close()
     
-    sys.exit(0)
+    return
 
 if __name__ == '__main__':
     import sys
@@ -37,6 +38,7 @@ if __name__ == '__main__':
         print("usage: python rcon.py <command>")
         sys.exit(1)
     import os
+
     try:
         host = os.environ['RCON_HOST']
         port = int(os.environ['RCON_PORT'])
@@ -44,4 +46,5 @@ if __name__ == '__main__':
     except:
         print("requires environment variables: RCON_HOST, RCON_PORT and RCON_PASS")
         sys.exit(1)
+
     main(host, port, password, args[0])
