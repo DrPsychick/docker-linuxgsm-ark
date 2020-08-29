@@ -15,7 +15,7 @@ env:
 
 before_script:
   - docker build -t $IMAGE --build-arg UBUNTU_VERSION=$UBUNTU_VERSION .
-  - VERSION=$(eval $(docker run --rm $IMAGE grep ^version= linuxgsm.sh); echo $version)
+  - VERSION=$(eval $(docker run --rm --entrypoint grep $IMAGE ^version= linuxgsm.sh); echo $version)
 
 script:
   # test always passes
