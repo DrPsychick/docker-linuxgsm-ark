@@ -11,9 +11,10 @@ except NameError: pass
 def main(host, port, password, cmd):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.settimeout(3)
-    sock.connect((host, port))
 
     try:
+        sock.connect((host, port))
+
         result = mcrcon.login(sock, password)
         if not result:
             print("Incorrect password!")

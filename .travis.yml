@@ -1,0 +1,28 @@
+dist: bionic
+os: linux
+language: bash
+services: docker
+
+env:
+  global:
+    - IMAGE=drpsychick/linuxgsm-ark
+  matrix:
+    - UBUNTU_VERSION=latest
+    - UBUNTU_VERSION=focal
+    - UBUNTU_VERSION=eoan
+    - UBUNTU_VERSION=bionic
+    - UBUNTU_VERSION=xenial
+
+before_script:
+  - docker build -t $IMAGE --build-arg UBUNTU_VERSION=$UBUNTU_VERSION .
+  - VERSION=$(eval $(docker run --rm $IMAGE grep ^version= linuxgsm.sh); echo $version)
+
+script:
+  # test always passes
+  - echo "Ubuntu $UBUNTU_VERSION linuxgsm $VERSION"
+  - >
+    echo "Running tests...";
+    docker run $IMAGE linuxgsm.sh list
+
+after_success:
+  - bash deploy.sh

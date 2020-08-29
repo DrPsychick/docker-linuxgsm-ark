@@ -5,9 +5,9 @@ LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved"
 USER root
 # install mcrcon python module (as root)
 RUN apt-get update \
-    && apt-get install -y git python-setuptools \
+    && apt-get install -y git python3-setuptools \
     && git clone https://github.com/barneygale/MCRcon \
-    && (cd MCRcon; python setup.py install_lib) \
+    && (cd MCRcon; python3 setup.py install_lib) \
     && rm -rf MCRcon \
     && apt-get autoremove -y \
     && apt-get clean -y \
