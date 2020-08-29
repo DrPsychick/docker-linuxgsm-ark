@@ -7,7 +7,7 @@
 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin &> /dev/null || exit 1
 
 # push dev image (only latest)
-if [ "$TRAVIS_BRANCH" = "dev" -a "$UBUNTU_VERSION" = "latest" ]; then
+if [ "$TRAVIS_BRANCH" = "develop" -a "$UBUNTU_VERSION" = "latest" ]; then
   echo "build and push docker image(s) for version $IMAGE:dev"
   docker build --build-arg UBUNTU_VERSION=$UBUNTU_VERSION \
     -t $IMAGE:dev .
