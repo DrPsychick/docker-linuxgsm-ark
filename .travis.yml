@@ -22,7 +22,7 @@ script:
   - echo "Ubuntu $UBUNTU_VERSION linuxgsm $VERSION"
   - >
     echo "Running tests...";
-    docker run $IMAGE linuxgsm.sh list
+    docker run --rm $IMAGE details
 
 after_success:
   - bash deploy.sh
