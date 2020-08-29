@@ -21,8 +21,8 @@ script:
   # test always passes
   - echo "Ubuntu $UBUNTU_VERSION linuxgsm $VERSION"
   - >
-    echo "Running tests...";
-    docker run --rm $IMAGE details
+    echo "Running container: installs ARK server...";
+    docker run --rm $IMAGE
 
 after_success:
   - bash deploy.sh
