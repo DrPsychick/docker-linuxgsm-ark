@@ -14,7 +14,7 @@ env:
     - UBUNTU_VERSION=xenial
 
 before_script:
-  - docker build -t $IMAGE --build-arg UBUNTU_VERSION=$UBUNTU_VERSION .
+  - docker build --pull -t $IMAGE --build-arg UBUNTU_VERSION=$UBUNTU_VERSION .
   - VERSION=$(eval $(docker run --rm --entrypoint grep $IMAGE ^version= linuxgsm.sh); echo $version)
 
 script:
