@@ -26,6 +26,7 @@ USER lgsm
 # WORKAROUND: download ARK dedicated server from steam and delete it (make sure its working and install steamcmd)
 RUN ./linuxgsm.sh arkserver \
     && mkdir -p ./serverfiles ./serverfiles_saved ./serverfiles_config ./serverfiles_mods ./serverfiles_clusters \
+    && sed -i -e 's/+quit | tee -a/+quit | uniq | tee -a/' lgsm/functions/core_dl.sh \
     && ./arkserver && ./arkserver validate && rm -rf ./arkserver ./serverfiles/* \
     && mv ./lgsm/config-lgsm/arkserver/arkserver.cfg ./serverfiles_config/arkserver.cfg \
     && ln -s ../../../serverfiles_config/arkserver.cfg ./lgsm/config-lgsm/arkserver/arkserver.cfg
