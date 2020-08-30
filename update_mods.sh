@@ -6,7 +6,7 @@
 (IFS=","; for mod in $ARK_MODS; do
   echo "---> Installing MOD $mod..."
   #mod=731604991
-  ./steamcmd/steamcmd.sh +login anonymous +workshop_download_item 346110 $mod validate +quit
+  ./.steam/steamcmd/steamcmd.sh +login anonymous +workshop_download_item 346110 $mod validate +quit
   # remove old mod files
   rm -rf serverfiles/ShooterGame/Content/Mods/$mod*
   #   extract (in background)
