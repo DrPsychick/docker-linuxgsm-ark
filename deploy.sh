@@ -26,7 +26,7 @@ if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
     # build and load it into local docker repository, so we can launch it and determine version
     docker build --build-arg UBUNTU_VERSION=$UBUNTU_VERSION \
       -t $IMAGE .
-    export VERSION=$(eval $(docker run --rm $IMAGE grep ^version= linuxgsm.sh); echo $version)
+    export VERSION=$(eval $(docker run --rm --entrypoint grep $IMAGE ^version= linuxgsm.sh); echo $version)
 
     # build again and push with correct version tag
     echo "build and push docker image(s) for version $IMAGE:$VERSION-$UBUNTU_VERSION"

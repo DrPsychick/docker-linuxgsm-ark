@@ -1,11 +1,15 @@
-FROM drpsychick/linuxgsm-ubuntu:latest
+ARG UBUNTU_VERSION=latest
+FROM drpsychick/linuxgsm-ubuntu:$UBUNTU_VERSION
 LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved" \
       maintainer="github@drsick.net"
 
 USER root
 # install mcrcon python module (as root)
-RUN apt-get update \
-    && apt-get install -y git python3-setuptools \
+RUN echo "tzdata tzdata/Areas select Europe" | debconf-set-selections \
+    && echo "tzdata tzdata/Zones/Europe select Berlin" | debconf-set-selections \
+    && export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
+    && apt-get update \
+    && apt-get install -y git python3-setuptools expect \
     && git clone https://github.com/barneygale/MCRcon \
     && (cd MCRcon; python3 setup.py install_lib) \
     && rm -rf MCRcon \
