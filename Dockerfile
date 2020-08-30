@@ -4,12 +4,10 @@ LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved"
       maintainer="github@drsick.net"
 
 USER root
-# install mcrcon python module (as root)
-RUN echo "tzdata tzdata/Areas select Europe" | debconf-set-selections \
-    && echo "tzdata tzdata/Zones/Europe select Berlin" | debconf-set-selections \
-    && export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
+# install mcrcon python module
+RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     && apt-get update \
-    && apt-get install -y git python3-setuptools expect \
+    && apt-get install -y git python3-setuptools \
     && git clone https://github.com/barneygale/MCRcon \
     && (cd MCRcon; python3 setup.py install_lib) \
     && rm -rf MCRcon \
@@ -55,7 +53,8 @@ VOLUME /home/lgsm/serverfiles /home/lgsm/serverfiles_saved /home/lgsm/serverfile
 # localhost will NOT work when ARK server listens on eth0 IP only
 # you need to set RCON_PORT and RCON_PASS when starting your container for healthcheck to work
 ENV RCON_HOST=localhost RCON_PORT=27020 RCON_PASS=password
-HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python /home/lgsm/rcon.py listplayers
+#HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python3 /home/lgsm/rcon.py listplayers # rcon is no longer responding...
+HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD nc -z $RCON_HOST $RCON_PORT
 
 ENV SERVERNAME="arkserver"
 ENV UPDATE_LGSM="" UPDATE_SERVER="" FORCE_VALIDATE="" UPDATE_MODS=""
