@@ -1,14 +1,17 @@
-[Docker image: drpsychick/linuxgsm-ark](https://hub.docker.com/r/drpsychick/linuxgsm-ark/)
-=======================
-[![DockerHub build status](https://img.shields.io/docker/cloud/build/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/builds)
-[![DockerHub build](https://img.shields.io/docker/cloud/automated/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/tags)
+# [Docker image: drpsychick/linuxgsm-ark](https://hub.docker.com/r/drpsychick/linuxgsm-ark/)
+
+[![Docker image](https://img.shields.io/docker/image-size/drpsychick/linuxgsm-ark?sort=date)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/tags)
+[![Travis build status](https://travis-ci.org/DrPsychick/docker-linuxgsm-ark.svg?branch=master)](https://travis-ci.org/DrPsychick/docker-linuxgsm-ark)
+[![DockerHub pulls](https://img.shields.io/docker/pulls/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/)
+[![DockerHub stars](https://img.shields.io/docker/stars/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/)
+[![license](https://img.shields.io/github/license/drpsychick/docker-linuxgsm-ark.svg)](https://github.com/drpsychick/docker-linuxgsm-ark/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/drpsychick/docker-linuxgsm-ark.svg)](https://github.com/drpsychick/docker-linuxgsm-ark)
 
 * Source: https://github.com/DrPsychick/docker-linuxgsm-ark
 * Image: https://hub.docker.com/r/drpsychick/linuxgsm-ark
 * Based on: https://github.com/GameServerManagers/LinuxGSM-Docker
 
-Known & Solved issues:
-----------------------
+### Known & Solved issues:
 * All ARK servers in a cluster MUST run with the same user as they share files on the host system
   * Ideally setup docker with user namespace mapping (--userns-remap), to keep the container user generic (UID=1000) and map it to what you need on the host
 * Each ARK server REQUIRES dedicated ports, because the ports are communicated to the client (docker port mapping will not work!)
@@ -16,8 +19,7 @@ Known & Solved issues:
   * see https://ark.gamepedia.com/Dedicated_Server_Setup#Network
 
 
-Usage:
-======
+## Usage:
 * create a docker container (with appropriate mounts, ports and ENV - see below)
 * start/stop the container as you wish
 * BACKUP the `_config`, `_saved` and `shared_clusters` directories when the servers are offline.
@@ -29,8 +31,7 @@ Directories:
 * `<yourserver>_saved` contains the save game for your individual ARK server instance : BACKUP!
 * `shared_clusters` shared directory of clusters where ARK stores survivors to download to a world : BACKUP!
 
-Clusters:
----------
+### Clusters:
 To run a cluster with multiple worlds you need:
 * RAM, a lot of it. Expect to provide at least 5G per server.
 * mount the same `shared_clusters` directory in each docker container
@@ -39,8 +40,7 @@ To run a cluster with multiple worlds you need:
 * run two servers, go to a drop/obelisk/Tek+ Transmitter and travel to the other server
 * enjoy!
 
-Helpful commands:
------------------
+### Helpful commands:
 * look inside: `docker run --rm -it --name lgsm-ark --entrypoint /bin/bash drpsychick/linuxgsm-ark`
   * from within the container, take `lgsm/config-lgsm/arkserver/_default.cfg` as a starting point for your `arkserver.cfg` which you need to put into the `_saved` directory
   * start the server once with mounted directories and stop it when it is fully available - this will create all config files needed.
@@ -62,8 +62,7 @@ docker run --rm -it --name lgsm-ark --memory=5G --tty \
   drpsychick/linuxgsm-ark ./arkserver details
 ```
 
-Docker user namespace remap
-===========================
+## Docker user namespace remap
 Settings for the docker HOST
 
 * first line: map UID/GID 0 within the container to UID/GID 1000 on the host
@@ -81,6 +80,6 @@ hostuser:10000:65536
 hostgroup:10000:65536
 ```
 
-Further reading:
+### Further reading:
 * https://docs.docker.com/engine/security/userns-remap/
 * https://www.jujens.eu/posts/en/2017/Jul/02/docker-userns-remap/
