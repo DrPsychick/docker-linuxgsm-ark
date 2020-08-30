@@ -10,22 +10,20 @@ fi
 
 modid=$1
 mod_appid=346110
-arkserverroot=/home/lgsm
-arkserverdir=serverfiles_mods
-steamcmdroot=/home/lgsm/.steam/steamcmd
+arkserverroot="/home/lgsm"
+arkserverdir="serverfiles_mods"
+steamroot=${steamroot:-"/home/lgsm/.steam"}
+steamcmdroot=${steamcmdroot:-"$steamroot/steamcmd"}
+steamappsroot=${steamappsroot:-"$steamroot/steam/steamapps"}
 # using Linux crashes the server:
 mod_branch="Windows"
-
-# defaults
-#steamworkshopdir=/home/lgsm/.steam/steam/steamapps/workshop
 
 #
 # Extracts a mod into the ARK Mods directory
 #
 doExtractMod(){
   local modid=$1
-  local steamdataroot="${steamdataroot:-${steamcmdroot}}"
-  local steamworkshopdir="${steamworkshopdir:-${steamdataroot}/steamapps/workshop}"
+  local steamworkshopdir="${steamworkshopdir:-${steamappsroot}/workshop}"
   local modsrcdir="${steamworkshopdir}/content/$mod_appid/$modid"
   local moddestdir="$arkserverroot/${arkserverdir}/$modid"
   local modextractdir="$moddestdir"
