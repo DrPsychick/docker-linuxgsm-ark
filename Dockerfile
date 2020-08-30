@@ -1,4 +1,5 @@
-FROM drpsychick/linuxgsm-ubuntu:latest
+ARG UBUNTU_VERSION=latest
+FROM drpsychick/linuxgsm-ubuntu:$UBUNTU_VERSION
 LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved" \
       maintainer="github@drsick.net"
 
