@@ -12,12 +12,12 @@ modid=$1
 mod_appid=346110
 arkserverroot=/home/lgsm
 arkserverdir=serverfiles_mods
-steamcmdroot=/home/lgsm/steamcmd
+steamcmdroot=/home/lgsm/.steam/steamcmd
 # using Linux crashes the server:
 mod_branch="Windows"
 
 # defaults
-steamworkshopdir=/home/lgsm/Steam/steamapps/workshop
+#steamworkshopdir=/home/lgsm/.steam/steam/steamapps/workshop
 
 #
 # Extracts a mod into the ARK Mods directory
