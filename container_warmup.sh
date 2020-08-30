@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# link steamcmd
-(cd serverfiles/Engine/Binaries/ThirdParty/SteamCMD;
-rm -rf Linux
-ln -s $HOME/.steam/steamcmd Linux
-)
-
 # trigger update_mods.sh if a mod is missing
 (IFS=","; for m in $ARK_MODS; do
   if [ ! -r "./serverfiles_mods/$m" ]; then
