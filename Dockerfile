@@ -56,7 +56,7 @@ VOLUME /home/lgsm/serverfiles /home/lgsm/serverfiles_saved /home/lgsm/serverfile
 # localhost will NOT work when ARK server listens on eth0 IP only
 # you need to set RCON_PORT and RCON_PASS when starting your container for healthcheck to work
 ENV RCON_HOST=localhost RCON_PORT=27020 RCON_PASS=password
-HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python /home/lgsm/rcon.py listplayers
+HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python3 /home/lgsm/rcon.py listplayers
 
 ENV SERVERNAME="arkserver"
 ENV UPDATE_LGSM="" UPDATE_SERVER="" FORCE_VALIDATE="" UPDATE_MODS=""
