@@ -5,17 +5,17 @@ LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved"
 
 USER root
 # install mcrcon python module
-RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
-    && apt-get update \
-    && apt-get install -y git python3-setuptools \
-    && git clone https://github.com/barneygale/MCRcon \
-    && (cd MCRcon; python3 setup.py install_lib) \
-    && rm -rf MCRcon \
-    && apt-get autoremove -y \
-    && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/* \
-    && rm -rf /var/tmp/*
+#RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
+#    && apt-get update \
+#    && apt-get install -y git python3-setuptools \
+#    && git clone https://github.com/barneygale/MCRcon \
+#    && (cd MCRcon; python3 setup.py install_lib) \
+#    && rm -rf MCRcon \
+#    && apt-get autoremove -y \
+#    && apt-get clean -y \
+#    && rm -rf /var/lib/apt/lists/* \
+#    && rm -rf /tmp/* \
+#    && rm -rf /var/tmp/*
 
 # switch to UID 1100 (temporary fix until I find time to setup userns-remap)
 #RUN usermod -u 1100 lgsm
@@ -37,7 +37,8 @@ ADD update_mods.sh \
     extract_mod.sh \
     container_init.sh \
     container_warmup.sh \
-    rcon.py /home/lgsm/
+    rcon-ark.py \
+    /home/lgsm/
 
 # you need to bind-mount these to persist server files to your drive
 # serverfiles and serverfiles_mods : are shared between all servers
@@ -53,8 +54,7 @@ VOLUME /home/lgsm/serverfiles /home/lgsm/serverfiles_saved /home/lgsm/serverfile
 # localhost will NOT work when ARK server listens on eth0 IP only
 # you need to set RCON_PORT and RCON_PASS when starting your container for healthcheck to work
 ENV RCON_HOST=localhost RCON_PORT=27020 RCON_PASS=password
-#HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python3 /home/lgsm/rcon.py listplayers # rcon is no longer responding...
-HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD nc -z $RCON_HOST $RCON_PORT
+HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python3 /home/lgsm/rcon-ark.py listplayers
 
 ENV SERVERNAME="arkserver"
 ENV UPDATE_LGSM="" UPDATE_SERVER="" FORCE_VALIDATE="" UPDATE_MODS=""
