@@ -1,7 +1,7 @@
 # [Docker image: drpsychick/linuxgsm-ark](https://hub.docker.com/r/drpsychick/linuxgsm-ark/)
 
 [![Docker image](https://img.shields.io/docker/image-size/drpsychick/linuxgsm-ark?sort=date)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/tags)
-[![Travis build status](https://travis-ci.org/DrPsychick/docker-linuxgsm-ark.svg?branch=master)](https://travis-ci.org/DrPsychick/docker-linuxgsm-ark)
+[![Travis build status](https://travis-ci.com/DrPsychick/docker-linuxgsm-ark.svg?branch=master)](https://travis-ci.com/DrPsychick/docker-linuxgsm-ark)
 [![DockerHub pulls](https://img.shields.io/docker/pulls/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/)
 [![DockerHub stars](https://img.shields.io/docker/stars/drpsychick/linuxgsm-ark.svg)](https://hub.docker.com/r/drpsychick/linuxgsm-ark/)
 [![license](https://img.shields.io/github/license/drpsychick/docker-linuxgsm-ark.svg)](https://github.com/drpsychick/docker-linuxgsm-ark/blob/master/LICENSE)
