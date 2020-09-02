@@ -11,7 +11,6 @@ env:
     - UBUNTU_VERSION=focal
     - UBUNTU_VERSION=eoan
     - UBUNTU_VERSION=bionic
-    - UBUNTU_VERSION=xenial
 
 before_script:
   - docker build --pull -t $IMAGE --build-arg UBUNTU_VERSION=$UBUNTU_VERSION .
