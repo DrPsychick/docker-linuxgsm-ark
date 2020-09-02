@@ -3,24 +3,10 @@ FROM drpsychick/linuxgsm-ubuntu:$UBUNTU_VERSION
 LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved" \
       maintainer="github@drsick.net"
 
-USER root
-# install mcrcon python module
-#RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
-#    && apt-get update \
-#    && apt-get install -y git python3-setuptools \
-#    && git clone https://github.com/barneygale/MCRcon \
-#    && (cd MCRcon; python3 setup.py install_lib) \
-#    && rm -rf MCRcon \
-#    && apt-get autoremove -y \
-#    && apt-get clean -y \
-#    && rm -rf /var/lib/apt/lists/* \
-#    && rm -rf /tmp/* \
-#    && rm -rf /var/tmp/*
-
 # switch to UID 1100 (temporary fix until I find time to setup userns-remap)
 #RUN usermod -u 1100 lgsm
 
-# UID 1000
+# UID 750
 # shared files must be owned by the same UID (ARK creates "clusters" files with its user and no group permissions)
 # OR: enable --userns-remap for dockerd (RTFM!)
 USER lgsm
@@ -29,7 +15,9 @@ USER lgsm
 RUN ./linuxgsm.sh arkserver \
     && mkdir -p ./serverfiles ./serverfiles_saved ./serverfiles_config ./serverfiles_mods ./serverfiles_clusters \
     && sed -i -e 's/+quit | tee -a/+quit | uniq | tee -a/' lgsm/functions/core_dl.sh \
-    && ./arkserver && ./arkserver validate && rm -rf ./arkserver ./serverfiles/* \
+    && ./arkserver && ./arkserver details \
+    #&& ARK_MODS=731604991 ./update_mods.sh \ # missing steamcmd
+    && rm -rf ./arkserver ./serverfiles/* \
     && mv ./lgsm/config-lgsm/arkserver/arkserver.cfg ./serverfiles_config/arkserver.cfg \
     && ln -s ../../../serverfiles_config/arkserver.cfg ./lgsm/config-lgsm/arkserver/arkserver.cfg
 
@@ -53,10 +41,16 @@ VOLUME /home/lgsm/serverfiles /home/lgsm/serverfiles_saved /home/lgsm/serverfile
 # UPDATE: RCON_HOST=localhost WILL work, if you do NOT use the "?Multihome=<eth0 IP>" command line parameter of ShooterGame
 # localhost will NOT work when ARK server listens on eth0 IP only
 # you need to set RCON_PORT and RCON_PASS when starting your container for healthcheck to work
-ENV RCON_HOST=localhost RCON_PORT=27020 RCON_PASS=password
+ENV RCON_HOST=localhost \
+    RCON_PORT=27020 \
+    RCON_PASS=password
 HEALTHCHECK --interval=10s --timeout=1s --retries=3 CMD python3 /home/lgsm/rcon-ark.py listplayers
 
-ENV SERVERNAME="arkserver"
-ENV UPDATE_LGSM="" UPDATE_SERVER="" FORCE_VALIDATE="" UPDATE_MODS=""
-ENV CONTAINER_INIT="yes" CONTAINER_WARMUP="yes"
+ENV SERVERNAME="arkserver" \
+    UPDATE_LGSM="" \
+    UPDATE_SERVER="" \
+    FORCE_VALIDATE="" \
+    UPDATE_MODS="" \
+    CONTAINER_INIT="yes" \
+    CONTAINER_WARMUP="yes"
 CMD ["start"]

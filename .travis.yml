@@ -1,12 +1,12 @@
 dist: bionic
 os: linux
-language: bash
+language: shell
 services: docker
 
 env:
   global:
     - IMAGE=drpsychick/linuxgsm-ark
-  matrix:
+  jobs:
     - UBUNTU_VERSION=latest
     - UBUNTU_VERSION=focal
     - UBUNTU_VERSION=eoan
