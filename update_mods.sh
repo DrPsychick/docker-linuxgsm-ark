@@ -4,6 +4,8 @@ export steamroot="/home/lgsm/.steam"
 export steamcmdroot="$steamroot/steamcmd"
 export steamappsroot="$steamroot/steam/steamapps"
 
+mkdir -p serverfiles/ShooterGame/Content/Mods
+
 # download mods (sequencial)
 # for each $ARK_MODIDS
 #   download
