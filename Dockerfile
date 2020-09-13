@@ -15,8 +15,8 @@ USER lgsm
 RUN ./linuxgsm.sh arkserver \
     && mkdir -p ./serverfiles ./serverfiles_saved ./serverfiles_config ./serverfiles_mods ./serverfiles_clusters \
     && sed -i -e 's/+quit | tee -a/+quit | uniq | tee -a/' lgsm/functions/core_dl.sh \
-    && ./arkserver && ./arkserver details \
-    #&& ARK_MODS=731604991 ./update_mods.sh \ # missing steamcmd
+    && ./arkserver && ./arkserver validate \
+    && ARK_MODS=731604991 ./update_mods.sh \
     && rm -rf ./arkserver ./serverfiles/* \
     && mv ./lgsm/config-lgsm/arkserver/arkserver.cfg ./serverfiles_config/arkserver.cfg \
     && ln -s ../../../serverfiles_config/arkserver.cfg ./lgsm/config-lgsm/arkserver/arkserver.cfg
