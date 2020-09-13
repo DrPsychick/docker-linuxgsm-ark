@@ -4,9 +4,6 @@ export steamroot="/home/lgsm/.steam"
 export steamcmdroot="$steamroot/steamcmd"
 export steamappsroot="$steamroot/steam/steamapps"
 
-# force re-install of SteamCMD for mods
-rm -rf serverfiles/Engine/Binaries/ThirdParty/SteamCMD/Linux
-
 # download mods (sequencial)
 # for each $ARK_MODIDS
 #   download
