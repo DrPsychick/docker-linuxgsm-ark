@@ -17,7 +17,7 @@ RUN ./linuxgsm.sh arkserver \
     && sed -i -e 's/+quit | tee -a/+quit | uniq | tee -a/' lgsm/functions/core_dl.sh \
     && ./arkserver && ./arkserver validate \
     && ARK_MODS=731604991 ./update_mods.sh \
-    && rm -rf ./arkserver ./serverfiles/* \
+    && rm -rf ./arkserver ./serverfiles/* ./serverfiles_mods/* ./.steam/steamapps/workshop ./.steam/depotcache/* ./.steam/appcache/* \
     && mv ./lgsm/config-lgsm/arkserver/arkserver.cfg ./serverfiles_config/arkserver.cfg \
     && ln -s ../../../serverfiles_config/arkserver.cfg ./lgsm/config-lgsm/arkserver/arkserver.cfg
 
