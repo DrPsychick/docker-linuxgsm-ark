@@ -10,6 +10,14 @@ LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved"
 # shared files must be owned by the same UID (ARK creates "clusters" files with its user and no group permissions)
 # OR: enable --userns-remap for dockerd (RTFM!)
 USER lgsm
+
+ADD update_mods.sh \
+    extract_mod.sh \
+    container_init.sh \
+    container_warmup.sh \
+    rcon-ark.py \
+    /home/lgsm/
+
 # prepare for ark, run "arkserver" once to download linuxgsm functions etc. and link the "arkserver.cfg"
 # WORKAROUND: download ARK dedicated server from steam and delete it (make sure its working and install steamcmd)
 RUN ./linuxgsm.sh arkserver \
@@ -19,13 +27,6 @@ RUN ./linuxgsm.sh arkserver \
     rm -rf ./arkserver ./serverfiles/* \
     && mv ./lgsm/config-lgsm/arkserver/arkserver.cfg ./serverfiles_config/arkserver.cfg \
     && ln -s ../../../serverfiles_config/arkserver.cfg ./lgsm/config-lgsm/arkserver/arkserver.cfg
-
-ADD update_mods.sh \
-    extract_mod.sh \
-    container_init.sh \
-    container_warmup.sh \
-    rcon-ark.py \
-    /home/lgsm/
 
 # you need to bind-mount these to persist server files to your drive
 # serverfiles and serverfiles_mods : are shared between all servers
