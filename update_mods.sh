@@ -4,8 +4,7 @@ export steamroot="/home/lgsm/.steam"
 export steamcmdroot="$steamroot/steamcmd"
 export steamappsroot="$steamroot/steam/steamapps"
 
-# force re-install of SteamCMD for mods
-rm -rf serverfiles/Engine/Binaries/ThirdParty/SteamCMD/Linux
+mkdir -p serverfiles/ShooterGame/Content/Mods
 
 # download mods (sequencial)
 # for each $ARK_MODIDS
@@ -13,7 +12,7 @@ rm -rf serverfiles/Engine/Binaries/ThirdParty/SteamCMD/Linux
 (IFS=","; for mod in $ARK_MODS; do
   echo "---> Installing MOD $mod..."
   #mod=731604991
-  $steamcmdroot/steamcmd.sh +login anonymous +workshop_download_item 346110 $mod validate +quit
+  $steamcmdroot/steamcmd.sh +login anonymous +workshop_download_item 346110 $mod validate +quit | uniq
   # remove old mod files
   rm -rf serverfiles/ShooterGame/Content/Mods/$mod*
   #   extract (in background)
