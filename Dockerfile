@@ -3,10 +3,10 @@ FROM drpsychick/linuxgsm-ubuntu:$UBUNTU_VERSION
 LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved" \
       maintainer="github@drsick.net"
 
+USER root
 COPY update_mods.sh \
     extract_mod.sh \
     container_init.sh \
-    container_stop.sh \
     container_warmup.sh \
     rcon-ark.py \
     /home/lgsm/
