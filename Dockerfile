@@ -3,21 +3,19 @@ FROM drpsychick/linuxgsm-ubuntu:$UBUNTU_VERSION
 LABEL description="linuxgsm-docker tuned for a cluster of ARK: Survival Evolved" \
       maintainer="github@drsick.net"
 
-# switch to UID 1100 (temporary fix until I find time to setup userns-remap)
-#RUN usermod -u 1100 lgsm
-
-# UID 750
-# shared files must be owned by the same UID (ARK creates "clusters" files with its user and no group permissions)
-# OR: enable --userns-remap for dockerd (RTFM!)
-USER lgsm
-
-ADD update_mods.sh \
+COPY update_mods.sh \
     extract_mod.sh \
     container_init.sh \
     container_stop.sh \
     container_warmup.sh \
     rcon-ark.py \
     /home/lgsm/
+RUN chown lgsm:lgsm /home/lgsm/*
+
+# UID 750
+# shared files must be owned by the same UID (ARK creates "clusters" files with its user and no group permissions)
+# OR: enable --userns-remap for dockerd (RTFM!)
+USER lgsm
 
 # prepare for ark, run "arkserver" once to download linuxgsm functions etc. and link the "arkserver.cfg"
 # WORKAROUND: download ARK dedicated server from steam and delete it (make sure its working and install steamcmd)
