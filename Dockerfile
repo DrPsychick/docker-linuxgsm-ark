@@ -7,6 +7,7 @@ USER root
 COPY update_mods.sh \
     extract_mod.sh \
     container_init.sh \
+    container_stop.sh \
     container_warmup.sh \
     rcon-ark.py \
     /home/lgsm/
