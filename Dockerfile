@@ -21,18 +21,18 @@ USER lgsm
 # prepare for ark, run "arkserver" once to download linuxgsm functions etc. and link the "arkserver.cfg"
 # WORKAROUND: download ARK dedicated server from steam and delete it (make sure its working and install steamcmd)
 RUN ./linuxgsm.sh arkserver \
-    && mkdir -p ./serverfiles ./serverfiles_saved ./serverfiles_config ./serverfiles_mods ./serverfiles_clusters \
+    && mkdir -p ./serverfiles ./serverfiles_saved/Config ./serverfiles_mods ./serverfiles_clusters \
     && sed -i -e 's/+quit | tee -a/+quit | uniq | tee -a/' lgsm/functions/core_dl.sh \
     && ./arkserver && ./arkserver validate; ARK_MODS=731604991 ./update_mods.sh; \
     rm -rf ./arkserver ./serverfiles/* ./serverfiles_mods/* ./.steam/steamapps/workshop ./.steam/depotcache/* ./.steam/appcache/* \
-    && mv ./lgsm/config-lgsm/arkserver/arkserver.cfg ./serverfiles_config/arkserver.cfg \
-    && ln -s ../../../serverfiles_config/arkserver.cfg ./lgsm/config-lgsm/arkserver/arkserver.cfg
+    && mv ./lgsm/config-lgsm/arkserver/arkserver.cfg ./serverfiles_saved/Config/arkserver.cfg \
+    && ln -s ../../../serverfiles_saved/Config/arkserver.cfg ./lgsm/config-lgsm/arkserver/arkserver.cfg
 
 # you need to bind-mount these to persist server files to your drive
 # serverfiles and serverfiles_mods : are shared between all servers
-# serverfiles_saved and serverfiles_config : are "per server"
+# serverfiles_saved : is "per server"
 # serverfiles_clusters : is shared among all servers in a cluster
-VOLUME /home/lgsm/serverfiles /home/lgsm/serverfiles_saved /home/lgsm/serverfiles_config /home/lgsm/serverfiles_mods /home/lgsm/serverfiles_clusters
+VOLUME /home/lgsm/serverfiles /home/lgsm/serverfiles_saved /home/lgsm/serverfiles_mods /home/lgsm/serverfiles_clusters
 
 # do NOT expose ports as each server must have dedicated ports (through configuration), because they are communicated to the client
 # example: running 2 servers on port 7777 which is mapped by docker to different host ports -> the client will "see" only one ARK server that is running on 7777

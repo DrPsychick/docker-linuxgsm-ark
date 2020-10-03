@@ -96,8 +96,8 @@ def main(host, port, password, cmd):
 if __name__ == '__main__':
     import sys
     args = sys.argv[1:]
-    if len(args) != 1:
-        print("usage: python rcon.py <command>")
+    if len(args) < 1:
+        print("usage: python rcon.py <command> [<arguments>]")
         sys.exit(1)
     import os
 
@@ -109,4 +109,4 @@ if __name__ == '__main__':
         print("requires environment variables: RCON_HOST, RCON_PORT and RCON_PASS")
         sys.exit(1)
 
-    main(host, port, password, args[0])
+    main(host, port, password, " ".join(args[0:]))

@@ -24,20 +24,19 @@
 ## Usage:
 * create a docker container (with appropriate mounts, ports and ENV - see below)
 * start/stop the container as you wish
-* BACKUP the `_config`, `_saved` and `shared_clusters` directories when the servers are offline.
+* BACKUP the `_saved` and `shared_clusters` directories when the servers are offline.
 
 Directories:
 * `serverfiles` contains the dedicated ARK server files (downloaded from steam) and links to the directories below
 * `serverfiles_mods` contains - what a surprise - steam workshop mods (downloaded from steam)
-* `<yourserver>_config` contains the config for your individual ARK server instance : BACKUP!
-* `<yourserver>_saved` contains the save game for your individual ARK server instance : BACKUP!
+* `<yourserver>_saved` contains the save game, config, logs, ... for your individual ARK server instance : BACKUP!
 * `shared_clusters` shared directory of clusters where ARK stores survivors to download to a world : BACKUP!
 
 ### Clusters:
 To run a cluster with multiple worlds you need:
 * RAM, a lot of it. Expect to provide at least 5G per server.
 * mount the same `shared_clusters` directory in each docker container
-* mount individual `_saved` and `_config` directories in each docker container
+* mount individual `_saved` directories in each docker container
 * use the `-clusterid=<clustername>` and `-NoTransferFromFiltering` parameters for ShooterGame in each docker container
 * run two servers, go to a drop/obelisk/Tek+ Transmitter and travel to the other server
 * enjoy!
@@ -46,7 +45,7 @@ To run a cluster with multiple worlds you need:
 * look inside: `docker run --rm -it --name lgsm-ark --entrypoint /bin/bash drpsychick/linuxgsm-ark`
   * from within the container, take `lgsm/config-lgsm/arkserver/_default.cfg` as a starting point for your `arkserver.cfg` which you need to put into the `_saved` directory
   * start the server once with mounted directories and stop it when it is fully available - this will create all config files needed.
-  * modify the `.ini` files (created by ARK during first start) in your `_config` directory to suit your needs
+  * modify the `.ini` files (created by ARK during first start) in your `serverfiles_saved/Config` directory to suit your needs
 * run server with directories mounted, environment variables, ports, ...:
   * `--tty` is required, see entrypoint.sh of base image
   * `RCON_*` variables are required for healthcheck to work
@@ -59,7 +58,6 @@ docker run --rm -it --name lgsm-ark --memory=5G --tty \
   --mount type=bind,source=$PWD/serverfiles,target=/home/lgsm/serverfiles \
   --mount type=bind,source=$PWD/serverfiles_mods,target=/home/lgsm/serverfiles_mods \
   --mount type=bind,source=$PWD/testark_saved,target=/home/lgsm/serverfiles_saved \
-  --mount type=bind,source=$PWD/testark_config,target=/home/lgsm/serverfiles_config \
   --mount type=bind,source=$PWD/shared_clusters,target=/home/lgsm/serverfiles_clusters \
   drpsychick/linuxgsm-ark ./arkserver details
 ```
