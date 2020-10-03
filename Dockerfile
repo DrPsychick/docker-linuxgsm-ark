@@ -21,7 +21,7 @@ USER lgsm
 # prepare for ark, run "arkserver" once to download linuxgsm functions etc. and link the "arkserver.cfg"
 # WORKAROUND: download ARK dedicated server from steam and delete it (make sure its working and install steamcmd)
 RUN ./linuxgsm.sh arkserver \
-    && mkdir -p ./serverfiles ./serverfiles_saved ./serverfiles_mods ./serverfiles_clusters \
+    && mkdir -p ./serverfiles ./serverfiles_saved/Config ./serverfiles_mods ./serverfiles_clusters \
     && sed -i -e 's/+quit | tee -a/+quit | uniq | tee -a/' lgsm/functions/core_dl.sh \
     && ./arkserver && ./arkserver validate; ARK_MODS=731604991 ./update_mods.sh; \
     rm -rf ./arkserver ./serverfiles/* ./serverfiles_mods/* ./.steam/steamapps/workshop ./.steam/depotcache/* ./.steam/appcache/* \
