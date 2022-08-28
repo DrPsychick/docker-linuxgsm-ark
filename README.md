@@ -9,6 +9,8 @@
 [![Paypal](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTXDN7LCDWUEA&source=url)
 [![GitHub Sponsor](https://img.shields.io/badge/github-sponsor-blue?logo=github)](https://github.com/sponsors/DrPsychick)
 
+# DISCONTINUED! see https://github.com/sickHub/arkserver if you're looking for a replacement.
+
 * Source: https://github.com/DrPsychick/docker-linuxgsm-ark
 * Image: https://hub.docker.com/r/drpsychick/linuxgsm-ark
 * Based on: https://github.com/GameServerManagers/LinuxGSM-Docker
